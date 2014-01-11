@@ -4,34 +4,53 @@ module Sycontact
   describe AddressBook do
 
     before do
-      source_file = File.join(File.dirname(__FILE__), "files/source")
+      source_file = File.join(File.dirname(__FILE__), "files/address_source.rb")
       @address_book = AddressBook.new(source_file)
     end
 
-    it "respond to attributes" do
-      @address_book.should respond_to :url_type
-      @address_book.should respond_to :url
-      @address_book.should respond_to :patterns
+    it "finds contact with sn and gn set" do
+      @address_book.lookup(sn: "Sugar",
+                           gn: "Pierre").should_not be_empty
     end
 
-    it "should have an URL and URL type" do
-      @address_book.url_type.should eq 'file'
-      @address_book.url.should eq '~/work/sycontact/contactfiles/test-source'
+    it "finds contact with leading and training white spaces in sn and gn" do
+      @address_book.lookup(sn: " Sugar ",
+                           gn: "   Pierre ").should_not be_empty
     end
 
-    it "should have patterns" do
-      @address_book.patterns.size.should eq 13
+    it "ignores capitalized values in sn and gn" do
+      @address_book.lookup(sn: " sugar",
+                           gn: " pierre \n").should_not be_empty
     end
 
-    it "find should return contact when it can be found" do
-      @address_book.lookup(c: "DE", 
-                           sn: "Pierre", 
-                           mail: "example@user.com").should_not be_nil
+    it "finds contact if only sn is set" do
+      @address_book.lookup(sn: "sugar").should_not be_empty
     end
 
-    it "find should return nil when contact cannot be found" do
-      @address_book.lookup(c: "DE", 
-                           sn: "No Name").should be_nil
+    it "finds contact with cn = 'Pierre Sugar' set" do
+      @address_book.lookup(cn: "Pierre Sugar").should_not be_empty
     end
+
+    it "finds contact with cn = 'Sugar, Pierre' set" do
+      @address_book.lookup(cn: "Sugar, Pierre").should_not be_empty
+    end
+
+    it "ignores capitalized values in find cn" do
+      @address_book.lookup(cn: "pierre Sugar").should_not be_empty
+      @address_book.lookup(cn: "sugar, pierre").should_not be_empty
+    end
+
+    it "finds contact with cn when only one part of the name is set" do
+      @address_book.lookup(cn: "Pierre").should_not be_empty
+      @address_book.lookup(cn: "Sugar").size.should eq 2
+    end
+
+    it "finds multiple contacts based on attributes other than cn, gn and sn" do
+      @address_book.lookup(mail: "amanda@sugar.com").should_not be_empty
+    end
+
+    it "find should return nil when no attribute matches" do
+      @address_book.lookup(mail: "user@example.com").should be_empty
+    end 
   end
 end
