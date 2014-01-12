@@ -48,6 +48,10 @@ module AddressSource
     end
   end
 
+  def title
+    "Test-Address-Book"
+  end
+
   private
 
     def create_source_files(pattern)
