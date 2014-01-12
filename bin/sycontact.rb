@@ -67,8 +67,8 @@ option_parser = OptionParser.new do |opts|
     options[:street] = street
   end
 
-  opts.on("-o ORGANIZATION", "Organization e.g. 'Northstar'") do |organization|
-    options[:organization] = organization
+  opts.on("-o", "--organization ORGANIZATION", "Organization e.g. 'Northstar'") do |organization|
+    options[:o] = organization
   end
 
   opts.on("-u", "--ou ORGANIZATIONAL_UNIT", "Department e.g. 'R&D'") do |organizational_unit|
@@ -108,5 +108,9 @@ rescue OptionParser::ParseError => e
   exit(1)
 end
 
+puts options.inspect
+
 library = Sycontact::AddressBookLibrary.new(address_books[0])
-puts library.lookup(options)
+library.lookup(options).each do |c|
+  puts c
+end
