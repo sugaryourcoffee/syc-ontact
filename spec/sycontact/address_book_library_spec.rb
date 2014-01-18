@@ -1,5 +1,6 @@
 require 'sycontact/address_book_library'
 
+# sycontac module providing functions to lookup contacts
 module Sycontact
 
   describe AddressBookLibrary do

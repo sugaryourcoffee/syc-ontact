@@ -1,11 +1,17 @@
 #!/usr/bin/env ruby
 
+# Main program of sycontact
+
 require 'optparse'
 require 'yaml'
 require_relative '../lib/sycontact/address_book_library'
 
+# Directory holding the confifuration file and the sources
 sycontact_directory     = File.expand_path("~/.syc/sycontact")
+# sycontact configuration file
 sycontact_file          = File.join(sycontact_directory, "sycontact.rc")
+# Directory where address books are saved to, that is the modules holding the script to retrieve
+# contacts from the contact source file (e.g. Internet, LDAP server, file)
 address_books_directory = File.join(sycontact_directory, "address_books/")
 
 unless File.exist? sycontact_directory

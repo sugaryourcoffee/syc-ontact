@@ -94,6 +94,11 @@
 
   <section class="description">
     
+<p><a href="AddressBookLibrary.html">AddressBookLibrary</a> creates <a
+href="AddressBook.html">AddressBook</a> objects and forwards all messages
+invoked on  <a href="AddressBookLibrary.html">AddressBookLibrary</a> to all
+AddressBooks.</p>
+
   </section>
 
   
@@ -121,7 +126,7 @@
 
         <div class="method-description">
         
-        
+        <p>The contacts from the last lookup invocation</p>
         
         </div>
       </div>
@@ -149,13 +154,14 @@
 
         <div class="method-description">
           
-          
+          <p>Creates <a href="AddressBook.html">AddressBook</a> objects based on the
+address book source files contained in the address_book_directory</p>
           
           
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/sycontact/address_book_library.rb, line 9</span>
+            <pre><span class="ruby-comment"># File lib/sycontact/address_book_library.rb, line 15</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">address_book_directory</span>)
   <span class="ruby-ivar">@address_books</span> = []
   <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">glob</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">address_book_directory</span>, <span class="ruby-string">&quot;*_source.rb&quot;</span>)).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">address_book</span><span class="ruby-operator">|</span>
@@ -193,13 +199,14 @@
 
         <div class="method-description">
           
-          
+          <p>Looks up a contact based on the pattern and returns the contact data as a
+hash. The contact data can subsequentially retrievied with :contacts</p>
           
           
 
           
           <div class="method-source-code" id="lookup-source">
-            <pre><span class="ruby-comment"># File lib/sycontact/address_book_library.rb, line 16</span>
+            <pre><span class="ruby-comment"># File lib/sycontact/address_book_library.rb, line 24</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">lookup</span>(<span class="ruby-identifier">pattern</span> = {})
   <span class="ruby-ivar">@contacts</span> = {}
   <span class="ruby-ivar">@address_books</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">address_book</span><span class="ruby-operator">|</span>
@@ -231,13 +238,15 @@
 
         <div class="method-description">
           
-          
+          <p>Invokes a lookup on all <a href="AddressBook.html">AddressBook</a> objects
+and prints the result to the console with all attributes found in the
+contact source</p>
           
           
 
           
           <div class="method-source-code" id="print_all-source">
-            <pre><span class="ruby-comment"># File lib/sycontact/address_book_library.rb, line 25</span>
+            <pre><span class="ruby-comment"># File lib/sycontact/address_book_library.rb, line 35</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">print_all</span>(<span class="ruby-identifier">pattern</span> = {})
   <span class="ruby-ivar">@address_books</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">address_book</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;\n#{address_book.title}&quot;</span>
@@ -269,13 +278,15 @@
 
         <div class="method-description">
           
-          
+          <p>Invokes a lookup on all <a href="AddressBook.html">AddressBook</a> objects
+and prints a subset of the result to the console. The attributes that are
+selected for print are defined in AddressBook::SUMMARY</p>
           
           
 
           
           <div class="method-source-code" id="print_summary-source">
-            <pre><span class="ruby-comment"># File lib/sycontact/address_book_library.rb, line 34</span>
+            <pre><span class="ruby-comment"># File lib/sycontact/address_book_library.rb, line 46</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">print_summary</span>(<span class="ruby-identifier">pattern</span> = {})
   <span class="ruby-ivar">@address_books</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">address_book</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;\n#{address_book.title}&quot;</span>

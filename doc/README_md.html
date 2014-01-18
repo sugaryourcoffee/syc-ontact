@@ -58,10 +58,11 @@
   <h3>Table of Contents</h3>
 
   <ul class="link-list" role="directory">
-    <li><a href="#label-syc-ontact">syc-ontact</a>
+    <li><a href="#label-sycontact">sycontact</a>
     <li><a href="#label-Installation">Installation</a>
+    <li><a href="#label-Setup">Setup</a>
     <li><a href="#label-Usage">Usage</a>
-    <li><a href="#label-Example">Example</a>
+    <li><a href="#label-Sources">Sources</a>
     <li><a href="#label-Contact">Contact</a>
   </ul>
 </div>
@@ -77,62 +78,6 @@
   
     <li><a href="./README_md.html">README</a>
   
-    <li><a href="./contactfiles/commands.html">commands</a>
-  
-    <li><a href="./contactfiles/scd-source.html">scd-source</a>
-  
-    <li><a href="./contactfiles/test-source.html">test-source</a>
-  
-    <li><a href="./doc/AddressSource_html.html">AddressSource.html</a>
-  
-    <li><a href="./doc/LICENSE_md_html.html">LICENSE_md.html</a>
-  
-    <li><a href="./doc/README_md_html.html">README_md.html</a>
-  
-    <li><a href="./doc/Sycontact_html.html">Sycontact.html</a>
-  
-    <li><a href="./doc/Sycontact/AddressBook_html.html">AddressBook.html</a>
-  
-    <li><a href="./doc/Sycontact/AddressBookLibrary_html.html">AddressBookLibrary.html</a>
-  
-    <li><a href="./doc/Sycontact/Contact_html.html">Contact.html</a>
-  
-    <li><a href="./doc/contactfiles/commands_html.html">commands.html</a>
-  
-    <li><a href="./doc/contactfiles/scd-source_html.html">scd-source.html</a>
-  
-    <li><a href="./doc/contactfiles/test-source_html.html">test-source.html</a>
-  
-    <li><a href="./doc/fonts_css.html">fonts.css</a>
-  
-    <li><a href="./doc/index_html.html">index.html</a>
-  
-    <li><a href="./doc/js/darkfish_js.html">darkfish.js</a>
-  
-    <li><a href="./doc/js/jquery_js.html">jquery.js</a>
-  
-    <li><a href="./doc/js/navigation_js.html">navigation.js</a>
-  
-    <li><a href="./doc/js/search_js.html">search.js</a>
-  
-    <li><a href="./doc/js/search_index_js.html">search_index.js</a>
-  
-    <li><a href="./doc/js/searcher_js.html">searcher.js</a>
-  
-    <li><a href="./doc/rdoc_css.html">rdoc.css</a>
-  
-    <li><a href="./doc/spec/sycontact/files/source_html.html">source.html</a>
-  
-    <li><a href="./doc/spec/sycontact/files/test-contacts/amanda_sugar_contact_html.html">amanda_sugar_contact.html</a>
-  
-    <li><a href="./doc/spec/sycontact/files/test-contacts/pierre_sugar_contact_html.html">pierre_sugar_contact.html</a>
-  
-    <li><a href="./doc/sycontact_gemspec_html.html">sycontact_gemspec.html</a>
-  
-    <li><a href="./doc/table_of_contents_html.html">table_of_contents.html</a>
-  
-    <li><a href="./spec/sycontact/files/source.html">source</a>
-  
     <li><a href="./spec/sycontact/files/test-contacts/amanda_sugar_contact.html">amanda_sugar.contact</a>
   
     <li><a href="./spec/sycontact/files/test-contacts/pierre_sugar_contact.html">pierre_sugar.contact</a>
@@ -147,42 +92,201 @@
 
 <main role="main" aria-label="Page README.md">
 
-<h1 id="label-syc-ontact">syc-ontact<span><a href="#label-syc-ontact">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
+<h1 id="label-sycontact">sycontact<span><a href="#label-sycontact">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
 
 <p><code>syc-ontact</code> is a command line interface for looking up contacts
-from any source that is providing contact information and where the
-interface can be described in a key value pair like interface.</p>
+from any source that is providing contact information.</p>
 
 <h1 id="label-Installation">Installation<span><a href="#label-Installation">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
 
-<p><code>gem install syc-ontact</code></p>
+<p><code>gem install sycontact</code></p>
 
-<h1 id="label-Usage">Usage<span><a href="#label-Usage">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
+<h1 id="label-Setup">Setup<span><a href="#label-Setup">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
 
-<p>To use <code>syc-ontact</code> a source-file has to be provided in the form
-of</p>
+<p>To use <code>sycontact</code> a source-file has to be provided. The
+source-file is Ruby script retrieving the data from the source. A source
+can be anything that can be read from the Ruby script, e.g. a web site, an
+LDAP server, a file with contact data.</p>
 
-<pre>address,&lt;http://where-to-lookup-contacts&gt;
-attribute,start-pattern,end-pattern</pre>
+<p><strong>Note:</strong> Without a user defined Ruby script file (a Ruby
+module) <code>sycontact</code> will do nothing but  creating a
+configuration file, a source directory and displaying the help page.</p>
+
+<p>To get <code>sycontact</code> to life you have to follow these setup steps:</p>
+<ol><li>
+<p>start <code>sycontact</code> once. This will create the configuration file
+and the working directory</p>
+</li><li>
+<p>provide a Ruby module describing how to retrieve the data from the source.
+The module name has  to be <code>some_name_source.rb</code>.</p>
+</li></ol>
+
+<p>The Ruby source code below describes a source-file that is retrieving
+contact data from a contact directory with the name <em>test-contacts</em>
+below the module&#39;s directory.</p>
+
+<pre class="ruby"><span class="ruby-keyword">module</span> <span class="ruby-constant">AddressSource</span>
+
+  <span class="ruby-comment"># Where to find the contact files</span>
+  <span class="ruby-constant">URL</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>), <span class="ruby-string">&quot;test-contacts&quot;</span>)
+
+  <span class="ruby-comment"># Regex to extract contact data from the contact files</span>
+  <span class="ruby-constant">REGEX</span> = { <span class="ruby-identifier">cn</span><span class="ruby-operator">:</span> <span class="ruby-regexp">/(?&lt;=&lt;common_name&gt;)[\w -]*(?=&lt;\common_name&gt;)/</span>,
+            <span class="ruby-identifier">sn</span><span class="ruby-operator">:</span> <span class="ruby-regexp">/(?&lt;=&lt;surname&gt;)[\w -]*(?=&lt;\/surname&gt;)/</span>,
+            <span class="ruby-identifier">gn</span><span class="ruby-operator">:</span> <span class="ruby-regexp">/(?&lt;=&lt;given_name&gt;)[\w -]*(?=&lt;\/given_name&gt;)/</span>,
+            <span class="ruby-identifier">c</span><span class="ruby-operator">:</span> <span class="ruby-regexp">/(?&lt;=&lt;country&gt;)[\w]*(?=&lt;\/country&gt;)/</span>,
+            <span class="ruby-identifier">l</span><span class="ruby-operator">:</span> <span class="ruby-regexp">/(?&lt;=&lt;location&gt;)[\w]*(?=&lt;\/location&gt;)/</span>,
+            <span class="ruby-identifier">st</span><span class="ruby-operator">:</span> <span class="ruby-regexp">/(?&lt;=&lt;state&gt;)[\w]*(?=&lt;\/state&gt;)/</span>,
+            <span class="ruby-identifier">street</span><span class="ruby-operator">:</span> <span class="ruby-regexp">/(?&lt;=&lt;street&gt;)[\w .]*(?=&lt;\/street&gt;)/</span>,
+            <span class="ruby-identifier">o</span><span class="ruby-operator">:</span> <span class="ruby-regexp">/(?&lt;=&lt;organization&gt;)[\w -]*(?=&lt;\/organization&gt;)/</span>,
+            <span class="ruby-identifier">ou</span><span class="ruby-operator">:</span> <span class="ruby-regexp">/(?&lt;=&lt;department&gt;)[\w -]*(?=&lt;\/department&gt;)/</span>,
+            <span class="ruby-identifier">title</span><span class="ruby-operator">:</span> <span class="ruby-regexp">/(?&lt;=&lt;title&gt;)[\w .-]*(?=&lt;\/title&gt;)/</span>,
+            <span class="ruby-identifier">description</span><span class="ruby-operator">:</span> <span class="ruby-regexp">/(?&lt;=&lt;description&gt;)[\w -+]*(?=&lt;\/description&gt;)/</span>,
+            <span class="ruby-identifier">telephone</span><span class="ruby-operator">:</span> <span class="ruby-regexp">/(?&lt;=&lt;telephone&gt;)[\w +()-]*(?=&lt;\/telephone&gt;)/</span>,
+            <span class="ruby-identifier">mobile</span><span class="ruby-operator">:</span> <span class="ruby-regexp">/(?&lt;=&lt;mobile&gt;)[\w +()-]*(?=&lt;\/mobile&gt;)/</span>,
+            <span class="ruby-identifier">mail</span><span class="ruby-operator">:</span> <span class="ruby-regexp">/(?&lt;=&lt;email&gt;)[\w @.-]*(?=&lt;\/email&gt;)/</span>
+          }
+
+  <span class="ruby-comment"># Mandatory method! Will be invoked by `sycontact`.</span>
+  <span class="ruby-comment"># Will lookup the contact based on the pattern provided</span>
+  <span class="ruby-keyword">def</span> <span class="ruby-identifier">lookup</span>(<span class="ruby-identifier">pattern</span> = {})
+    <span class="ruby-identifier">contacts</span> = []
+    <span class="ruby-identifier">create_source_files</span>(<span class="ruby-identifier">pattern</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">source_file</span><span class="ruby-operator">|</span>
+
+      <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-identifier">source_file</span>
+
+      <span class="ruby-identifier">source</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">source_file</span>)
+
+      <span class="ruby-keyword">next</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">source</span>.<span class="ruby-identifier">empty?</span>
+
+      <span class="ruby-identifier">values</span> = {}
+
+      <span class="ruby-constant">REGEX</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">regex</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">value</span> = <span class="ruby-identifier">source</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-identifier">regex</span>)[<span class="ruby-value">0</span>]
+        <span class="ruby-identifier">values</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">value</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>
+      <span class="ruby-keyword">end</span>
+
+      <span class="ruby-identifier">contacts</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">values</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-identifier">contacts</span>.<span class="ruby-identifier">keep_if</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">contact</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">pattern</span>.<span class="ruby-identifier">each</span>.<span class="ruby-identifier">reduce</span>(<span class="ruby-keyword">true</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">match</span>, <span class="ruby-identifier">pattern</span><span class="ruby-operator">|</span> 
+        <span class="ruby-identifier">contact_does_not_have_key</span> = <span class="ruby-identifier">contact</span>[<span class="ruby-identifier">pattern</span>[<span class="ruby-value">0</span>]].<span class="ruby-identifier">nil?</span>
+        <span class="ruby-identifier">regex</span> = <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">pattern</span>[<span class="ruby-value">1</span>].<span class="ruby-identifier">strip</span>.<span class="ruby-identifier">downcase</span>)
+        <span class="ruby-identifier">pos</span> = <span class="ruby-identifier">regex</span> <span class="ruby-operator">=~</span> <span class="ruby-identifier">contact</span>[<span class="ruby-identifier">pattern</span>[<span class="ruby-value">0</span>]].<span class="ruby-identifier">strip</span>.<span class="ruby-identifier">downcase</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">contact_does_not_have_key</span>
+        <span class="ruby-identifier">match</span> <span class="ruby-keyword">and</span> (<span class="ruby-keyword">not</span> <span class="ruby-identifier">pos</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">contact_does_not_have_key</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">private</span>
+
+    <span class="ruby-comment"># Creates the contact file name. In this case the contact files have to be in the form</span>
+    <span class="ruby-comment"># firstname_lastname.contact or lastname_firstname.contact. If neather is given all *_*.contact</span>
+    <span class="ruby-comment"># files are retrieved</span>
+    <span class="ruby-keyword">def</span> <span class="ruby-identifier">create_source_files</span>(<span class="ruby-identifier">pattern</span>)
+      <span class="ruby-identifier">source_files</span> = []
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">pattern</span>[:<span class="ruby-identifier">cn</span>]
+        <span class="ruby-identifier">names</span> = <span class="ruby-identifier">pattern</span>[:<span class="ruby-identifier">cn</span>].<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/(^[a-zA-Z]*)[^a-zA-Z]*([a-zA-Z]*)/</span>).<span class="ruby-identifier">flatten</span>
+        <span class="ruby-identifier">names</span>[<span class="ruby-value">0</span>] = <span class="ruby-string">&#39;*&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">names</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">empty?</span>
+        <span class="ruby-identifier">names</span>[<span class="ruby-value">1</span>] = <span class="ruby-string">&#39;*&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">names</span>[<span class="ruby-value">1</span>].<span class="ruby-identifier">empty?</span>
+        <span class="ruby-identifier">names</span>.<span class="ruby-identifier">permutation</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">names</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">URL</span>, <span class="ruby-node">&quot;#{names.join(&#39;_&#39;).downcase}.contact&quot;</span>)
+          <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">glob</span>(<span class="ruby-identifier">file</span>).<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span> <span class="ruby-identifier">source_files</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">file</span> }
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">pattern</span>[:<span class="ruby-identifier">sn</span>] <span class="ruby-keyword">or</span> <span class="ruby-identifier">pattern</span>[:<span class="ruby-identifier">gn</span>]
+        <span class="ruby-identifier">sn</span> = <span class="ruby-identifier">pattern</span>[:<span class="ruby-identifier">sn</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">pattern</span>[:<span class="ruby-identifier">sn</span>].<span class="ruby-identifier">strip</span>.<span class="ruby-identifier">downcase</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;*&#39;</span>
+        <span class="ruby-identifier">gn</span> = <span class="ruby-identifier">pattern</span>[:<span class="ruby-identifier">gn</span>] <span class="ruby-operator">?</span> <span class="ruby-identifier">pattern</span>[:<span class="ruby-identifier">gn</span>].<span class="ruby-identifier">strip</span>.<span class="ruby-identifier">downcase</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;*&#39;</span>
+        <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">glob</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">URL</span>, <span class="ruby-node">&quot;#{gn}_#{sn}.contact&quot;</span>)).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">source_files</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">file</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">glob</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">URL</span>, <span class="ruby-string">&quot;*_*.contact&quot;</span>)).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">source_files</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">file</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">source_files</span>
+    <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+</pre>
 
 <p><strong>Listing 1: Source-file to provide information about how to retrieve
 contact information</strong></p>
 
-<h2 id="label-Example">Example<span><a href="#label-Example">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+<p>Below a contact file that can be read by the above source module.</p>
 
-<p>|Attributes |Start-Pattern |End-Pattern| |————|——————|———–| |name
-|&lt;name&gt; |&lt;/name&gt; | |organization|&lt;org&gt; |&lt;/org&gt; |
-|phone |&lt;phone&gt; |&lt;/phone&gt; |</p>
+<pre>&lt;common_name&gt;Sugar Pierre&lt;/common_name&gt;
+&lt;given_name&gt;Pierre&lt;/given_name&gt;
+&lt;surname&gt;Sugar&lt;/surname&gt;
+&lt;country&gt;CA&lt;/country&gt;
+&lt;location&gt;Vancouver&lt;/location&gt;
+&lt;state&gt;BC&lt;/state&gt;
+&lt;street&gt;Robson Street&lt;/street&gt;
+&lt;organization&gt;SugarYourCoffee&lt;/organization&gt;
+&lt;department&gt;DevOps&lt;/department&gt;
+&lt;telephone&gt;+001 (123) 4567&lt;/telephone&gt;
+&lt;mobile&gt;+001 (765) 4321&lt;/mobile&gt;
+&lt;email&gt;pierre@sugaryourcoffee.de&lt;/email&gt;</pre>
 
-<p><strong>Table 1: Source-file describing how to obtain information from the
-source</strong></p>
+<p><strong>Listing 2: Contact file that can be read by the
+<code>AddressSource</code> module</strong></p>
+
+<h1 id="label-Usage">Usage<span><a href="#label-Usage">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
+
+<p>Get help for sycontact</p>
+
+<pre>$ sycontact -h</pre>
+
+<pre>Usage: sycontact [options]
+    -p, --print RAW|SUMMARY|ALL      Print contact attributes
+                                     SUMMARY (default)
+        --cn COMMON_NAME             Common name e.g. &#39;Jane Doe&#39; or &#39;Doe, Jane&#39;
+        --sn SURNAME                 Surname e.g. &#39;Doe&#39;
+        --gn GIVEN_NAME              Given name e.g. &#39;Jane&#39;
+        --uid USER_ID                User ID
+    -c COUNTRY                       Country in ISO 3166 e.g. &#39;CA&#39; for Canada
+    -l LOCATION                      City e.g. &#39;Vancouver&#39;
+        --st STATE                   State e.g. &#39;British Columbia&#39;
+        --street STREET              Street e.g. &#39;Robson Street&#39;
+    -o ORGANIZATION                  Organization e.g. &#39;Northstar&#39;
+        --ou ORGANIZATIONAL_UNIT     Department e.g. &#39;R&amp;D&#39;
+        --title TITLE                Title e.g. &#39;Dr.&#39;
+        --description DESCRIPTION    Description e.g. &#39;Head of R&amp;D&#39;
+        --telephone TELEPHONE        Telephone number e.g. &#39;+001 (252) 4354&#39;
+        --mobile MOBILE_PHONE        Mobile number e.g. &#39;+001 (252) 4345&#39;
+        --mail E-MAIL                E-Mail address e.g. &#39;jane@northstart.ca&#39;
+    -h, --help                       Show his message</pre>
+
+<p>Lookup a contact with summary output</p>
+
+<pre>$ sycontact --cn sugar
+$ sycontact --cn &quot;sugar, pierre&quot;
+$ sycontact --cn &quot;pierre sugar&quot;</pre>
+
+<p>Any of the above commands result in the following output</p>
+
+<pre>AddressSource
+
+CN..................Sugar Pierre
+C...................DE
+L...................Vancouver
+O...................SugarYourCoffee
+OU..................DevOps
+TELEPHONE...........+001 (123) 4567
+MOBILE..............+001 (765) 4321
+MAIL................pierre@sugaryourcoffee.de</pre>
+
+<h1 id="label-Sources">Sources<span><a href="#label-Sources">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
 
 <p>Home page: <a
 href="http://syc.dyndns.org/drupal/wiki/sycontact-lookup-contacts-any-source">syc.dyndns.org/drupal/wiki/sycontact-lookup-contacts-any-source</a></p>
 
+<p>Source: <a
+href="https://github.com/sugaryourcoffee/syc-ontact">github.com/sugaryourcoffee/syc-ontact</a></p>
+
 <h1 id="label-Contact">Contact<span><a href="#label-Contact">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
 
-<p>&lt;mailto: pierre@sugaryourcoffee.de&gt;</p>
+<p><a href="mailto:pierre@sugaryourcoffee.de">pierre@sugaryourcoffee.de</a></p>
 </main>
 
 

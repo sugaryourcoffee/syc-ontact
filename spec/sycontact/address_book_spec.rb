@@ -1,5 +1,6 @@
 require 'sycontact/address_book'
 
+# sycontac module providing functions to lookup contacts
 module Sycontact
   describe AddressBook do
 
@@ -68,16 +69,16 @@ module Sycontact
         "sn has the value of Sugar", 
         "gn has the value of Pierre", 
         "c has the value of DE", 
-        "l has the value of City", 
-        "st has the value of State", 
-        "street has the value of Street", 
-        "o has the value of Company", 
-        "ou has the value of Department", 
-        "title has the value of Dr.", 
-        "description has the value of Description of Pierre Sugar", 
-        "telephone has the value of +49 (123) 4567", 
-        "mobile has the value of +49 (765) 4321", 
-        "mail has the value of pierre@sugar.com"
+        "l has the value of Vancouver", 
+        "st has the value of BC", 
+        "street has the value of Robson Street", 
+        "o has the value of SugarYourCoffee", 
+        "ou has the value of DevOps", 
+        "title has the value of No Title", 
+        "description has the value of Development and Operations", 
+        "telephone has the value of +001 (123) 4567", 
+        "mobile has the value of +001 (765) 4321", 
+        "mail has the value of pierre@sugaryourcoffee.de"
       ]
     end
 
@@ -90,16 +91,16 @@ module Sycontact
         [{:sn=>"Sugar", 
           :gn=>"Pierre", 
           :c=>"DE", 
-          :l=>"City", 
-          :st=>"State", 
-          :street=>"Street", 
-          :o=>"Company", 
-          :ou=>"Department", 
-          :title=>"Dr.", 
-          :description=>"Description of Pierre Sugar", 
-          :telephone=>"+49 (123) 4567", 
-          :mobile=>"+49 (765) 4321", 
-          :mail=>"pierre@sugar.com"}]
+          :l=>"Vancouver", 
+          :st=>"BC", 
+          :street=>"Robson Street", 
+          :o=>"SugarYourCoffee", 
+          :ou=>"DevOps", 
+          :title=>"No Title", 
+          :description=>"Development and Operations", 
+          :telephone=>"+001 (123) 4567", 
+          :mobile=>"+001 (765) 4321", 
+          :mail=>"pierre@sugaryourcoffee.de"}]
       ]
     end
   end

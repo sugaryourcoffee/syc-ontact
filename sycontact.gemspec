@@ -3,8 +3,8 @@ Gem::Specification.new do |s|
   s.version  = "0.0.1"
   s.author   = "Pierre Sugar"
   s.email    = "pierre@sugaryourcoffee.de"
-  s.homepage = "http://syc.dyndns.org/drupal"
-  s.summary  = "Lookup contacts"
+  s.homepage = "https://github.com/sugaryourcoffee/syc-ontact"
+  s.summary  = "Lookup contacts from any source by providing customized source files"
   s.description = File.read(File.join(File.dirname(__FILE__), 'README.md'))
 
   s.files       = Dir["{bin,lib,spec}/**/*"] + %w(LICENSE.md README.md)

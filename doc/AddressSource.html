@@ -68,6 +68,8 @@
     
     <li ><a href="#method-i-lookup">#lookup</a>
     
+    <li ><a href="#method-i-title">#title</a>
+    
   </ul>
 </div>
 
@@ -81,6 +83,9 @@
 
   <section class="description">
     
+<p>Test module for rspec providing functions to lookup contacts in the
+test-contacts directory</p>
+
   </section>
 
   
@@ -100,12 +105,14 @@
       
         <dt id="REGEX">REGEX
         
-        <dd>
+        <dd><p><a href="AddressSource.html#REGEX">REGEX</a> to extract contact data from
+the contact source file</p>
         
       
         <dt id="URL">URL
         
-        <dd>
+        <dd><p><a href="AddressSource.html#URL">URL</a> where the contact source files can
+be found</p>
         
       
       </dl>
@@ -134,13 +141,13 @@
 
         <div class="method-description">
           
-          
+          <p>Looks up a contact based on the pattern</p>
           
           
 
           
           <div class="method-source-code" id="lookup-source">
-            <pre><span class="ruby-comment"># File spec/sycontact/files/address_source.rb, line 21</span>
+            <pre><span class="ruby-comment"># File spec/sycontact/files/address_source.rb, line 25</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">lookup</span>(<span class="ruby-identifier">pattern</span> = {})
   <span class="ruby-identifier">contacts</span> = []
   <span class="ruby-identifier">create_source_files</span>(<span class="ruby-identifier">pattern</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">source_file</span><span class="ruby-operator">|</span>
@@ -169,6 +176,39 @@
       <span class="ruby-identifier">match</span> <span class="ruby-keyword">and</span> (<span class="ruby-keyword">not</span> <span class="ruby-identifier">pos</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">contact_does_not_have_key</span>)
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-title" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">title</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Overrides the default title method in AddressBook</p>
+          
+          
+
+          
+          <div class="method-source-code" id="title-source">
+            <pre><span class="ruby-comment"># File spec/sycontact/files/address_source.rb, line 56</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">title</span>
+  <span class="ruby-string">&quot;AddressSource&quot;</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           

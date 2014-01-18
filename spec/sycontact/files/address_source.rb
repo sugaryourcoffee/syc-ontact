@@ -1,7 +1,10 @@
+# Test module for rspec providing functions to lookup contacts in the test-contacts directory
 module AddressSource
 
+  # URL where the contact source files can be found
   URL = File.join(File.dirname(__FILE__), "test-contacts")
 
+  # REGEX to extract contact data from the contact source file
   REGEX = { cn: /(?<=<common_name>)[\w -]*(?=<\common_name>)/,
             sn: /(?<=<surname>)[\w -]*(?=<\/surname>)/,
             gn: /(?<=<given_name>)[\w -]*(?=<\/given_name>)/,
@@ -18,6 +21,7 @@ module AddressSource
             mail: /(?<=<email>)[\w @.-]*(?=<\/email>)/
           }
 
+  # Looks up a contact based on the pattern
   def lookup(pattern = {})
     contacts = []
     create_source_files(pattern).each do |source_file|
@@ -48,14 +52,14 @@ module AddressSource
     end
   end
 
-=begin
+  # Overrides the default title method in AddressBook
   def title
-    "Test-Address-Book"
+    "AddressSource"
   end
-=end
 
   private
 
+    # Creates a source file name based on the pattern
     def create_source_files(pattern)
       source_files = []
       if pattern[:cn]

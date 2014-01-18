@@ -181,8 +181,10 @@ MAIL................pierre@sugaryourcoffee.de
 Sources
 =======
 Home page: <http://syc.dyndns.org/drupal/wiki/sycontact-lookup-contacts-any-source>
-Source:    <https://github.com/sugaryourcoffee/sycontact
+
+Source: <https://github.com/sugaryourcoffee/syc-ontact>
 
 Contact
 =======
-<mailto: pierre@sugaryourcoffee.de>
+
+<pierre@sugaryourcoffee.de>
