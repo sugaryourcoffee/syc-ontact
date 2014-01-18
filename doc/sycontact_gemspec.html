@@ -81,20 +81,21 @@
 
 <p>Gem::Specification.new do |s|</p>
 
-<pre>s.name     = &quot;syc-ontact&quot;
-s.version  = &quot;0.0.1&quot;
-s.author   = &quot;Pierre Sugar&quot;
-s.email    = &quot;pierre@sugaryourcoffee.de&quot;
-s.homepage = &quot;http://syc.dyndns.org/drupal&quot;
-s.summary  = &quot;Lookup contacts&quot;
-s.description = File.read(File.join(File.dirname(__FILE__), &#39;README.md&#39;))
+<pre>s.name        = &quot;syc-ontact&quot;
+s.version     = &quot;0.0.2&quot;
+s.author      = &quot;Pierre Sugar&quot;
+s.email       = &quot;pierre@sugaryourcoffee.de&quot;
+s.homepage    = &quot;https://github.com/sugaryourcoffee/syc-ontact&quot;
+s.summary     = &quot;Lookup contacts from any source by providing customized source files&quot;
+s.licenses    = &quot;MIT&quot;
 
 s.files       = Dir[&quot;{bin,lib,spec}   /*&quot;] + %w(LICENSE.md README.md)
 s.test_files  = Dir[&quot;spec/   *&quot;]
 s.executables = [ &#39;sycontact&#39; ]
+s.has_rdoc    = true
 
 s.required_ruby_version = &#39;&gt;=1.9&#39;
-s.add_development_dependency &#39;rspec&#39;</pre>
+s.add_development_dependency &#39;rspec&#39;, &#39;~&gt; 0&#39;</pre>
 
 <p>end</p>
 </main>
