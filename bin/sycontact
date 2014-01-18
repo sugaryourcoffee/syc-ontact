@@ -35,20 +35,29 @@ else
   end
 end
 
-options = {} 
+options = { p: "summary" } 
 
 option_parser = OptionParser.new do |opts|
 
-  opts.on("-n", "--cn COMMON_NAME", "Common name e.g. 'Jane Doe' or 'Doe, Jane'") do |common_name|
+  opts.on("-p", "--print RAW|SUMMARY|ALL", "Print contact attributes", 
+                                           "SUMMARY (default)") do |print|
+    options[:p] = print
+  end
+
+  opts.on("--cn COMMON_NAME", "Common name e.g. 'Jane Doe' or 'Doe, Jane'") do |common_name|
     options[:cn] = common_name
   end
 
-  opts.on("-s", "--sn SURNAME", "Surname e.g. 'Doe'") do |surname|
+  opts.on("--sn SURNAME", "Surname e.g. 'Doe'") do |surname|
     options[:sn] = surname
   end
 
-  opts.on("-g", "--gn GIVEN_NAME", "Given name e.g. 'Jane'") do |given_name|
+  opts.on("--gn GIVEN_NAME", "Given name e.g. 'Jane'") do |given_name|
     options[:gn] = given_name
+  end
+
+  opts.on("--uid USER_ID", "User ID") do |user_id|
+    options[:uid] = user_id
   end
 
   opts.on("-c COUNTRY", "Country in ISO 3166 e.g. 'CA' for Canada") do |country|
@@ -59,39 +68,39 @@ option_parser = OptionParser.new do |opts|
     options[:l] = location
   end
 
-  opts.on("-t", "--st STATE", "State e.g. 'British Columbia'") do |state|
+  opts.on("--st STATE", "State e.g. 'British Columbia'") do |state|
     options[:st] = state
   end
 
-  opts.on("-r", "--street STREET", "Street e.g. 'Robson Street'") do |street|
+  opts.on("--street STREET", "Street e.g. 'Robson Street'") do |street|
     options[:street] = street
   end
 
-  opts.on("-o", "--organization ORGANIZATION", "Organization e.g. 'Northstar'") do |organization|
+  opts.on("-o ORGANIZATION", "Organization e.g. 'Northstar'") do |organization|
     options[:o] = organization
   end
 
-  opts.on("-u", "--ou ORGANIZATIONAL_UNIT", "Department e.g. 'R&D'") do |organizational_unit|
+  opts.on("--ou ORGANIZATIONAL_UNIT", "Department e.g. 'R&D'") do |organizational_unit|
     options[:ou] = organizational_unit
   end
 
-  opts.on("-i", "--title TITLE", "Title e.g. 'Dr.'") do |title|
+  opts.on("--title TITLE", "Title e.g. 'Dr.'") do |title|
     options[:title] = title
   end
 
-  opts.on("-d", "--description DESCRIPTION", "Description e.g. 'Head of R&D'") do |description|
+  opts.on("--description DESCRIPTION", "Description e.g. 'Head of R&D'") do |description|
     options[:descripton] = description
   end
 
-  opts.on("-p", "--telephone TELEPHONE", "Telephone number e.g. '+001 (252) 4354'") do |telephone|
+  opts.on("--telephone TELEPHONE", "Telephone number e.g. '+001 (252) 4354'") do |telephone|
     options[:telephone] = telephone
   end
 
-  opts.on("-m", "--mobile MOBILE_PHONE", "Mobile number e.g. '+001 (252) 4345'") do |mobile_phone|
+  opts.on("--mobile MOBILE_PHONE", "Mobile number e.g. '+001 (252) 4345'") do |mobile_phone|
     options[:mobile] = mobile_phone
   end
 
-  opts.on("-a", "--mail E-MAIL", "E-Mail address e.g. 'jane@northstart.ca'") do |email|
+  opts.on("--mail E-MAIL", "E-Mail address e.g. 'jane@northstart.ca'") do |email|
     options[:mail] = email
   end
 
@@ -108,9 +117,18 @@ rescue OptionParser::ParseError => e
   exit(1)
 end
 
-puts options.inspect
-
 library = Sycontact::AddressBookLibrary.new(address_books[0])
-library.lookup(options).each do |c|
-  puts c
+
+case options[:p].downcase
+when "raw"
+  options.delete(:p)
+  library.lookup(options).each do |c|
+    puts c
+  end
+when "all"
+  options.delete(:p)
+  library.print_all(options)
+else
+  options.delete(:p)
+  library.print_summary(options)
 end

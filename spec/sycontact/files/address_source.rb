@@ -48,9 +48,11 @@ module AddressSource
     end
   end
 
+=begin
   def title
     "Test-Address-Book"
   end
+=end
 
   private
 
